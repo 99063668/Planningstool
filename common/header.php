@@ -12,7 +12,7 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
             <a class="nav-item nav-link active" href="index.php">Games</a>
-            <a class="nav-item nav-link" href="#">Planning</a>
+            <a class="nav-item nav-link" href="planning.php">Planning</a>
         </div>
     </div>
     </nav>
