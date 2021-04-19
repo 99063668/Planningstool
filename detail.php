@@ -1,5 +1,5 @@
 <?php
-    include("functions.php");
+    include("includes/functions.php");
 
     if(isset($_GET["id"])){
         $game = getGame($_GET["id"]);
