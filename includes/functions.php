@@ -11,7 +11,7 @@
     function getGame($id){
         $conn = openDatabase();
         $query = $conn->prepare("SELECT * FROM games WHERE id = :id");
-        $query->bindParam(":id, $id");
+        $query->bindParam(":id", $id);
         $query->execute();
         return $query->fetch();
     }
