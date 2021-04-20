@@ -27,7 +27,7 @@
         $conn = openDatabase();
 
         if(isset($games)){
-            $query = $conn->prepare("INSERT INTO games(name) VALUES (:name)");
+            $query = $conn->prepare("SELECT name FROM games WHERE name = :name");
             $query->bindParam(":name", $games);
             $query->execute();
         } else {
@@ -37,6 +37,18 @@
         return $games;
     }
 
+    // Verwijderd 1 game uit de planning
+    // function deleteGame($id){
+    //     $conn = openDatabase();
+
+    //     if(..){
+    //         $query = $conn->prepare("DELETE * FROM planning WHERE id = :id");
+    //         $query->bindParam(":id", $id);
+    //         $query->execute();
+    //     }
+        
+    //     return $query->fetch();
+    // }
 
 
 
@@ -46,7 +58,16 @@
 
 
 
-
+    //Controleert de input van addGame
+    function controle($data){
+        if (!empty($data)) {
+            $data["games"] = trimdata($data["games"]);
+            $data["id"] = trimdata($data["id"]);
+            return $data;
+        }else{
+            console_log("error empty post game bij function controle.");
+        }
+    }
     
     //Controleert de input op verboden characters
     function trimdata($data){
@@ -64,7 +85,7 @@
                 "id" => $_GET["id"]
             );
             $input = controle($data);
-            update($input);
+            addGame($input);
         }
     }
   
