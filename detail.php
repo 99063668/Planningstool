@@ -2,15 +2,13 @@
     include("includes/functions.php");
 
     if(isset($_GET["id"])){
-        $game = getGame($_GET["id"]);
+        $game = getTable("games", $_GET["id"]);
         if(!$game){
             header("location: index.php");
         }
     }else{
         header("location: index.php");
     }
-
-    $games = addGame();
 
     include("common/header.php");
 ?>
@@ -30,7 +28,7 @@
             <p><label class="w-25 font-weight-bold">Website: </tabel><a target="_blank" href="<?=$game["url"]?>">Klik hier</a></p>
 
             
-            <form action="planning.php"  method="post">
+            <form action="planning.php?id=<?= $game["id"]?>"  method="post">
                 <label for="games"><b>Toevoegen aan planning:</b></label>
                 <input class="btn btn-primary btn-sm" type="submit" name="submit" value="Add">
             </form>
