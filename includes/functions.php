@@ -80,7 +80,15 @@
 
     //Edit een game uit de planning
     // function editPlanning($id){
-    //     // $conn = openDatabase();
+    //     $conn = openDatabase();
+    //     $id = intval($id);
+    //     $check = getTable("plannings", $id);
+
+    //     if (!empty($id) && isset($id) && is_numeric($id) && !empty($check) && isset($check)){
+    //         $query = $conn->prepare("UPDATE FROM plannings WHERE id = :id");
+    //         $query->bindParam(":id", $id);
+    //         $query->execute(); 
+    //     }  
     // }
 
     //Controleert de input van forms
@@ -168,7 +176,10 @@
             header("location: planningResult.php");
         } elseif (!empty($_POST["Delete2"]) && $_POST["Delete2"] == false) {
             header("location: planningPage.php");
+        // } elseif (!empty($_POST["Edit"])) {
+        //     editPlanning($_GET["id"]);
+        //     header("location: planningPage.php");
+        // }
         }
     }
 
-  
