@@ -76,8 +76,6 @@
             $query->bindParam(":id", $id);
             $query->execute(); 
         } 
-
-        $conn= null;
     }
 
     //Edit een game uit de planning
@@ -164,11 +162,12 @@
             $input = controle();
             addGame($input);
         } elseif (!empty($_POST["Delete"])) {
-            // $_POST["Delete2"]);
+            //Show confirm form
         } elseif (!empty($_POST["Delete2"]) && $_POST["Delete2"] == true) {
-            // deleteGame($_POST["Delete2"]);
+            deleteGame($_GET["id"]);
+            header("location: planningResult.php");
         } elseif (!empty($_POST["Delete2"]) && $_POST["Delete2"] == false) {
-            // header("location: planningPage.php");
+            header("location: planningPage.php");
         }
     }
 
