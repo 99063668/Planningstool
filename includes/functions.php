@@ -19,6 +19,16 @@
         return $query->fetchAll();
     }
     
+    //Haalt alle plannings op
+    function getAllPlannings(){
+        $conn = openDatabase();
+
+        $query = $conn->prepare("SELECT * FROM plannings");
+        $query->execute();
+
+        return $query->fetchAll();
+    }
+
     //Haalt 1 game op
     function getTable($table, $id){
         $conn = openDatabase();
@@ -39,10 +49,10 @@
         $conn = openDatabase();
 
         if(!empty($data) && isset($data)){
-            if (isset($data["game_id"]) && !empty($data["game_id"]) && isset($data["time1"]) && !empty($data["time1"]) && isset($data["duration"]) && !empty($data["duration"]) && isset($data["host"]) && !empty($data["host"] && isset($data["players"]) && !empty($data["players"])) {
-                $query = $conn->prepare("INSERT INTO plannings(game, 'time', duration, host, players) VALUES (:game, :time1, :duration, :host, :players)");
+            if (isset($data["game_id"]) && !empty($data["game_id"]) && isset($data["times"]) && !empty($data["times"]) && isset($data["duration"]) && !empty($data["duration"]) && isset($data["host"]) && !empty($data["host"]) && isset($data["players"]) && !empty($data["players"])) {
+                $query = $conn->prepare("INSERT INTO plannings(game, times, duration, host, players) VALUES (:game, :times, :duration, :host, :players)");
                 $query->bindParam(":game", $data["game_id"]);
-                $query->bindParam(":time1", $data["time1"]);
+                $query->bindParam(":times", $data["times"]);
                 $query->bindParam(":duration", $data["duration"]);
                 $query->bindParam(":host", $data["host"]);
                 $query->bindParam(":players", $data["players"]);
@@ -55,16 +65,24 @@
         }
     }
 
-    // // Verwijderd 1 game uit de planning
-    // function deleteGame($id){
-    //     $conn = openDatabase();
-    //     console_log("delete game");
+    // Verwijderd 1 game uit de planning
+    function deleteGame($id){
+        $conn = openDatabase();
+        $id = intval($id);
+        $check = getTable("plannings", $id);
 
-            // $query = $conn->prepare("DELETE * FROM plannings WHERE id = :id");
-            // $query->bindParam(":id", $id);
-            // $query->execute();  
-        
-    //     return $query->fetch();
+        if (!empty($id) && isset($id) && is_numeric($id) && !empty($check) && isset($check)){
+            $query = $conn->prepare("DELETE FROM plannings WHERE id = :id");
+            $query->bindParam(":id", $id);
+            $query->execute(); 
+        } 
+
+        $conn= null;
+    }
+
+    //Edit een game uit de planning
+    // function editPlanning($id){
+    //     // $conn = openDatabase();
     // }
 
     //Controleert de input van forms
@@ -82,12 +100,12 @@
             $data["game_id"] = $game_id;
         }
 
-        if(!empty($_POST["time1"])){
-            $time1 = trimdata($_POST["time1"]);
-            if(!preg_match("/^(?:2[0-3]|[01][0-9]):[0-5][0-9]$/", $time1)){
+        if(!empty($_POST["times"])){
+            $times = trimdata($_POST["times"]);
+            if(!preg_match("/^(?:2[0-3]|[01][0-9]):[0-5][0-9]$/", $times)){
                 print_r("Alleen letters en spaties zijn toegestaan!");
             }else{
-                $data["time1"] = $time1;
+                $data["times"] = $times;
             }
         }
 
@@ -96,7 +114,6 @@
             $duration_game = optellen_game_duration($game["play_minutes"], $game["explain_minutes"]);
 
             $data["duration"] = $duration_game;
-            console_log(trimdata($_POST["game_id"]));
         }
 
         if(!empty($_POST["host"])){
@@ -110,13 +127,12 @@
 
         if(!empty($_POST["players"])){
             $players = trimdata($_POST["players"]);
-            if(!preg_match("/^[a-zA-Z-' ]*$/", $players)){
+            if(!preg_match("/^[a-zA-Z-' , ]*$/", $players)){
                 print_r("Alleen letters en spaties zijn toegestaan!");
             }else{
                 $data["players"] = $players;
             }
         }
-        console_log($data);
         return $data;
     }
 
@@ -147,6 +163,12 @@
         } elseif (!empty($_POST["SubmitBtn"])) {
             $input = controle();
             addGame($input);
+        } elseif (!empty($_POST["Delete"])) {
+            // $_POST["Delete2"]);
+        } elseif (!empty($_POST["Delete2"]) && $_POST["Delete2"] == true) {
+            // deleteGame($_POST["Delete2"]);
+        } elseif (!empty($_POST["Delete2"]) && $_POST["Delete2"] == false) {
+            // header("location: planningPage.php");
         }
     }
 
