@@ -21,7 +21,7 @@
 
             <p><label class="w-25 font-weight-bold">Expansions: </tabel><?=$game["expansions"]?></p>
             <p><label class="w-25 font-weight-bold">Skills: </tabel><?=$game["skills"]?></p>
-            <p><label class="w-25 font-weight-bold">Min spelers: </tabel><?=$game["min-players"]?></p>
+            <p><label class="w-25 font-weight-bold">Min spelers: </tabel><?=$game["min_players"]?></p>
             <p><label class="w-25 font-weight-bold">Max spelers: </tabel><?=$game["max_players"]?></p>
             <p><label class="w-25 font-weight-bold">Speeltijd: </tabel><?=$game["play_minutes"]?></p>
             <p><label class="w-25 font-weight-bold">Uitlegtijd: </tabel><?=$game["explain_minutes"]?></p>

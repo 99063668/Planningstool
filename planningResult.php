@@ -3,7 +3,6 @@
     include("includes/functions.php");
 
     $games = getAllPlannings();
-
 ?>
 <h2>Planning:</h2>
 
