@@ -165,16 +165,15 @@
     if($_SERVER["REQUEST_METHOD"] == "POST"){
         if (!empty($_POST["submit"])) {
             $input = controle();
-            addGame($input);
         } elseif (!empty($_POST["SubmitBtn"])) {
             $input = controle();
             addGame($input);
         } elseif (!empty($_POST["Delete"])) {
             //Show confirm form
-        } elseif (!empty($_POST["Delete2"]) && $_POST["Delete2"] == true) {
+        } elseif (!empty($_POST["Delete2"])) {
             deleteGame($_GET["id"]);
             header("location: planningResult.php");
-        } elseif (!empty($_POST["Delete2"]) && $_POST["Delete2"] == false) {
+        } elseif (!empty($_POST["Delete3"])) {
             header("location: planningPage.php");
         // } elseif (!empty($_POST["Edit"])) {
         //     editPlanning($_GET["id"]);
