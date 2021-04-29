@@ -2,60 +2,40 @@
     include("common/header.php");
     include("includes/functions.php");
 
-    // if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    //     $game = $_POST["delete"];
-    //     deleteGame();
-    // }
+    $games = getAllPlannings();
+
 ?>
- <link rel="stylesheet" href="styles.css">
 <h2>Planning:</h2>
 
-<?php
-    $time1 = $host = $players = $game = $duration_game = "";
-
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                
-        $game = getTable("games", $_POST["game_id"]);
-        $time1 = $_POST["time1"];
-        $host = $_POST["host"];
-        $players = $_POST["players"];
-        
-
-        echo "<b> Game: </b>" .  $game["name"];
-        echo "<br>";
-        echo "<b> Starttijd: </b>" . $time1;
-        echo "<br>";
-        echo "<b> Eindtijd: </b>" . $duration_game;
-        echo "<br>";
-        echo "<b> Host: </b>" . $host;
-        echo "<br>";
-        echo "<b> Spelers: </b>" . $players;
-?>
-    <br>
-    <form method="post" action="planning.php">  
-    <input type="submit" class="btn btn-primary btn-sm" name="submit" value="Edit"> 
-    </form>
-    <button class="btn btn-primary btn-sm" onclick="document.getElementById('id01').style.display='block'">Delete</button>
-
-    <div id="id01" class="modal">
-    <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">×</span>
-    <form class="modal-content" action="/action_page.php">
-        <div class="container">
-        <h1>Delete planning</h1>
-        <p>Are you sure you want to delete this planning?</p>
-        
-        <div class="clearfix">
-            <button type="button" name="cancel" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn btn-danger btn-sm">Cancel</button>
-            <button type="button" name="delete" onclick="document.getElementById('id01').style.display='none'" class="deletebtn btn-success btn-sm">Delete</button>
-        </div>
-        </div>
-    </form>
-    </div>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Game</th>
+            <th scope="col">Begintijd</th>
+            <th scope="col">Speeltijd</th>
+            <th scope="col">Host</th>
+            <th scope="col">Spelers</th>
+            <th scope="col"> </th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+            foreach((array) $games as $game){
+        ?>
+        <tr>
+            <td><?=$game["game"]?></td>
+            <td><?=$game["times"]?></td>
+            <td><?=$game["duration"]?> minuten</td>
+            <td><?=$game["host"]?></td>
+            <td><?=$game["players"]?></td>
+            <td><a href="planningPage.php?id=<?=$game["id"]?>">Meer&nbsp;info</a></a></td>
+        </tr>
+        <?php
+            }
+        ?>
+    </tbody>
+</table>
     
-
-<?php
-     }
-?>
 <?php   
     include("common/footer.php"); 
 ?>

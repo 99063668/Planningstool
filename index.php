@@ -1,9 +1,8 @@
 <?php
+    include("common/header.php");
     include("includes/functions.php");
 
     $games = getAllGames();
-
-    include("common/header.php");
 ?>
 <table class="table">
     <thead>
