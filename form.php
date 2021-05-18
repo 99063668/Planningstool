@@ -1,4 +1,5 @@
 <?php
+    include("common/header.php");
     include("includes/functions.php");
 
     if(isset($_GET["id"])){
@@ -18,3 +19,6 @@
     <button class="btn btn-primary btn-sm" type="submit" name="Delete2" value="true">Yes</button>
     <button class="btn btn-primary btn-sm" type="submit" name="Delete3" value="false">Cancel</button>
 </form>
+<?php   
+    include("common/footer.php"); 
+?>

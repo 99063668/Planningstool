@@ -35,21 +35,15 @@
             <p><b> Spelers: </b> <?=$games["players"]; ?></p>
             <br>
             
-            <!-- <form action="planningPage.php?id=<?= $game["id"]?>"  method="post">
+            <form action="editplanning.php?id=<?= $game["id"]?>"  method="post">
                 <label for="Edit"><b>Planning wijzigen:</b></label>
                 <input class="btn btn-primary btn-sm" type="submit" name="Edit" value="Edit">
-            </form> -->
+            </form>
 
             <form action="form.php?id=<?= $game["id"]?>" method="post">
                 <label for="Delete"><b>Planning verwijderen:</b></label>
                 <button class="btn btn-primary btn-sm" type="submit" name="Delete" value="Delete">Delete</button>
             </form>
-
-            <!-- <form action="planningPage.php?id=<?= $game["id"]?>"  method="post">
-                <label for="Confirm"><b>Are you sure you want to delete this planning?</b></label>
-                <button class="btn btn-primary btn-sm" type="submit" name="Delete2" value="true">Yes</button>
-                <button class="btn btn-primary btn-sm" type="submit" name="Delete2" value="false">Cancel</button>
-            </form> -->
     </div>
     
         <div class="col-6"><img src="images/<?=$game["image"]?>" alt=""><br><br><?=$game["youtube"]?></div>
