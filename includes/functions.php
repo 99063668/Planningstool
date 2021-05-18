@@ -79,31 +79,52 @@
     }
 
     //Edit een game uit de planning
-    // function editPlanning($id){
-    //     $conn = openDatabase();
-    //     $id = intval($id);
-    //     $check = getTable("plannings", $id);
+    function editGame($data){
+        $conn = openDatabase();
+        $data["id"] = intval($data["id"]);
+        $check = getTable("plannings", $data["id"]);
 
-    //     if (!empty($id) && isset($id) && is_numeric($id) && !empty($check) && isset($check)){
-    //         $query = $conn->prepare("UPDATE FROM plannings WHERE id = :id");
-    //         $query->bindParam(":id", $id);
-    //         $query->execute(); 
-    //     }  
-    // }
+        if(!empty($data["id"]) && isset($data["id"]) && is_numeric($data["id"]) && !empty($check) && isset($check)){
+            $query = $conn->prepare("UPDATE plannings SET times=:times, duration=:duration, host=:host, players=:players  WHERE id=:id");
+            $query->bindParam(":times", $data["times"]);
+            $query->bindParam(":duration",  $data["duration"]);
+            $query->bindParam(":host",  $data["host"]);
+            $query->bindParam(":players",  $data["players"]);
+            $query->bindParam(":id", $data["id"]);
+            $query->execute(); 
+        }  
+    }
 
     //Controleert de input van forms
     function controle(){
         $data = [];
+        $errors = [];
         
+        if(!empty($_POST["id"])){
+            $id = trimdata($_POST["id"]);
+            settype($id, "int");
+            $planning = getTable("plannings", $id);
+
+            if(!is_numeric($id) && isset($planning) && !empty($planning)){
+                // print_r("Er bestaat geen planning met dit id!");
+                $errors["id"] = "Er bestaat geen planning met dit id!";
+            }else{
+                $data["id"] = $id;
+            }
+        } else{
+            $errors["id"] = "geen id meegeven met formulier!";
+        }
+
         if(!empty($_POST["game_id"])){
             $game_id = trimdata($_POST["game_id"]);
             settype($game_id, "int");
             $game = getTable("game", $game_id);
 
-        }if(!is_numeric($id) && isset($game) && !empty($game)){
-            print_r("Er bestaat geen game met dit id!");
-        }else{
-            $data["game_id"] = $game_id;
+            if(!is_numeric($id) && isset($game) && !empty($game)){
+                print_r("Er bestaat geen game met dit id!");
+            }else{
+                $data["game_id"] = $game_id;
+            }
         }
 
         if(!empty($_POST["times"])){
@@ -139,6 +160,8 @@
                 $data["players"] = $players;
             }
         }
+
+        $data["errors"] = $errors;
         return $data;
     }
 
@@ -175,10 +198,10 @@
             header("location: planningResult.php");
         } elseif (!empty($_POST["Delete3"])) {
             header("location: planningPage.php");
-        // } elseif (!empty($_POST["Edit"])) {
-        //     editPlanning($_GET["id"]);
-        //     header("location: planningPage.php");
-        // }
+
+        }elseif (!empty($_POST["SubmitBtn2"])) {
+                $input = controle();
+                editGame($input);
         }
     }
 
