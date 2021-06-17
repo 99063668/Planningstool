@@ -1,12 +1,4 @@
 <?php
-  function console_log($output, $with_script_tags = true){
-    $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) . ');';
-    if($with_script_tags){
-        $js_code = '<script>' . $js_code . '</script>';
-    }
-    echo $js_code;
-    }
-
     include("database.php");
 
     //Haalt alle games op
@@ -24,6 +16,15 @@
         $conn = openDatabase();
 
         $query = $conn->prepare("SELECT * FROM plannings");
+        $query->execute();
+
+        return $query->fetchAll();
+    }
+
+    //Voegt de plannings game en de game id samen
+    function getAllPlanningGames(){
+        $conn = openDatabase();
+        $query = $conn->prepare("SELECT * FROM plannings LEFT JOIN games ON plannings.game = games.id");
         $query->execute();
 
         return $query->fetchAll();
@@ -61,7 +62,7 @@
                 return $data;
             }
         }else{
-            print_r("error empty post game bij function controle.");
+            echo("error empty post game bij function controle.");
         }
     }
 
@@ -98,7 +99,6 @@
     //Controleert de input van forms
     function controle(){
         $data = [];
-        $errors = [];
         
         if(!empty($_POST["id"])){
             $id = trimdata($_POST["id"]);
@@ -106,13 +106,10 @@
             $planning = getTable("plannings", $id);
 
             if(!is_numeric($id) && isset($planning) && !empty($planning)){
-                // print_r("Er bestaat geen planning met dit id!");
-                $errors["id"] = "Er bestaat geen planning met dit id!";
+                echo("Er bestaat geen planning met dit id!");
             }else{
                 $data["id"] = $id;
             }
-        } else{
-            $errors["id"] = "geen id meegeven met formulier!";
         }
 
         if(!empty($_POST["game_id"])){
@@ -121,7 +118,7 @@
             $game = getTable("game", $game_id);
 
             if(!is_numeric($id) && isset($game) && !empty($game)){
-                print_r("Er bestaat geen game met dit id!");
+                echo("Er bestaat geen game met dit id!");
             }else{
                 $data["game_id"] = $game_id;
             }
@@ -130,7 +127,7 @@
         if(!empty($_POST["times"])){
             $times = trimdata($_POST["times"]);
             if(!preg_match("/^(?:2[0-3]|[01][0-9]):[0-5][0-9]$/", $times)){
-                print_r("Alleen letters en spaties zijn toegestaan!");
+                echo("Alleen letters en spaties zijn toegestaan!");
             }else{
                 $data["times"] = $times;
             }
@@ -146,7 +143,7 @@
         if(!empty($_POST["host"])){
             $host = trimdata($_POST["host"]);
             if(!preg_match("/^[a-zA-Z-' ]*$/", $host)){
-                print_r("Alleen letters en spaties zijn toegestaan!");
+                echo("Alleen letters en spaties zijn toegestaan!");
             }else{
                 $data["host"] = $host;
             }
@@ -155,13 +152,12 @@
         if(!empty($_POST["players"])){
             $players = trimdata($_POST["players"]);
             if(!preg_match("/^[a-zA-Z-' , ]*$/", $players)){
-                print_r("Alleen letters en spaties zijn toegestaan!");
+                echo("Alleen letters en spaties zijn toegestaan!");
             }else{
                 $data["players"] = $players;
             }
         }
 
-        $data["errors"] = $errors;
         return $data;
     }
 
@@ -184,7 +180,7 @@
         return $data;
     }
     
-    //
+    //..
     if($_SERVER["REQUEST_METHOD"] == "POST"){
         if (!empty($_POST["submit"])) {
             $input = controle();
@@ -198,10 +194,9 @@
             header("location: planningResult.php");
         } elseif (!empty($_POST["Delete3"])) {
             header("location: planningPage.php");
-
         }elseif (!empty($_POST["SubmitBtn2"])) {
                 $input = controle();
                 editGame($input);
         }
     }
-
+?>
