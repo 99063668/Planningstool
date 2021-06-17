@@ -2,7 +2,7 @@
     include("common/header.php");
     include("includes/functions.php");
 
-    $games = getAllPlannings();
+    $plannings = getAllPlanningGames();
 ?>
 <h2>Planning:</h2>
 
@@ -19,22 +19,22 @@
     </thead>
     <tbody>
         <?php
-            foreach((array) $games as $game){
+            foreach((array) $plannings as $planning){
         ?>
         <tr>
-            <td><?=$game["game"]?></td>
-            <td><?=$game["times"]?></td>
-            <td><?=$game["duration"]?> minuten</td>
-            <td><?=$game["host"]?></td>
-            <td><?=$game["players"]?></td>
-            <td><a href="planningPage.php?id=<?=$game["id"]?>">Meer&nbsp;info</a></a></td>
+            <td><?=$planning["name"]?></td>
+            <td><?=$planning["times"]?></td>
+            <td><?=$planning["duration"]?> minuten</td>
+            <td><?=$planning["host"]?></td>
+            <td><?=$planning["players"]?></td>
+            <td><a href="planningPage.php?id=<?=$planning["id"]?>">Meer&nbsp;info</a></a></td>
         </tr>
         <?php
             }
         ?>
     </tbody>
 </table>
-    
+  
 <?php   
     include("common/footer.php"); 
 ?>

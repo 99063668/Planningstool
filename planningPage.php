@@ -13,7 +13,6 @@
 
     include("common/header.php");
 ?>
-
 <div class="row">
     <div class="col-12"><h1><?=$game["name"]?></h1></div>
     <div class="col-6">
@@ -29,6 +28,7 @@
             <p><label class="w-25 font-weight-bold">Website: </tabel><a target="_blank" href="<?=$game["url"]?>">Klik hier</a></p>
 
             <br>
+            <p><b>Planning:</b></p>
             <p><b> Starttijd: </b> <?=$games["times"]; ?></p>
             <p><b> Speeltijd: </b> <?=$games["duration"]; ?> minuten</p>
             <p><b> Host: </b> <?=$games["host"]; ?></p>
@@ -47,11 +47,7 @@
     </div>
     
         <div class="col-6"><img src="images/<?=$game["image"]?>" alt=""><br><br><?=$game["youtube"]?></div>
-
-       
-
 </div>
-
 <?php   
     include("common/footer.php"); 
 ?>

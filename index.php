@@ -37,7 +37,6 @@
         ?>
     </tbody>
 </table>
-
 <?php   
     include("common/footer.php"); 
 ?>

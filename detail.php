@@ -12,7 +12,6 @@
 
     include("common/header.php");
 ?>
-
 <div class="row">
     <div class="col-12"><h1><?=$game["name"]?></h1></div>
     <div class="col-6">
@@ -38,7 +37,6 @@
         <div class="col-6"><img src="images/<?=$game["image"]?>" alt=""><br><br><?=$game["youtube"]?></div>
 
 </div>
-
 <?php   
     include("common/footer.php"); 
 ?>
