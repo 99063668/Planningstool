@@ -16,7 +16,7 @@
         <p><b>Host: </b><input type="text" name="host"  placeholder="Vul hier de host in" value="<?php echo $person["host"]?>"></p>
 
         <label for="players"><b>Spelers: </b></label><br>
-        <textarea name="players" cols="30" rows="10" placeholder="Vul hier de spelers in" value="<?php echo $person["players"]?>"></textarea><br>
+        <textarea name="players" cols="30" rows="10" placeholder="Vul hier de spelers in"><?php echo $person["players"]?></textarea><br>
         <button class="btn btn-primary" name="SubmitBtn2" value="confirm">Confirm</button>
     </form>
 <?php   
