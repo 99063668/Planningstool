@@ -21,29 +21,49 @@
         return $query->fetchAll();
     }
 
-    //Voegt de plannings game en de game id samen
-    function getAllPlanningGames(){
-        $conn = openDatabase();
-        $query = $conn->prepare("SELECT * FROM plannings LEFT JOIN games ON plannings.game = games.id");
-        $query->execute();
 
-        return $query->fetchAll();
-    }
+    //Voegt de plannings game en de game id samen
+    // function getAllPlanningGames(){
+    //     $conn = openDatabase();
+    //     $query = $conn->prepare("SELECT * FROM plannings LEFT JOIN games ON plannings.game = games.id");
+    //     $query->execute();
+
+    //     return $query->fetchAll();
+    // }
 
     //Haalt 1 game op
     function getTable($table, $id){
         $conn = openDatabase();
-
         $id = intval($id);
-        if (($table == "games" || $table == "plannings") && isset($id) && !empty($id) && is_numeric($id)) {
-            $query = $conn->prepare("SELECT * FROM `$table` WHERE id = :id");
-            $query->bindParam(":id", $id);
-            $query->execute();
-            $result = $query->fetch(PDO::FETCH_ASSOC);
+        try {
+            if (($table == "games" || $table == "plannings") && isset($id) && !empty($id) && is_numeric($id)) {
+                $query = $conn->prepare("SELECT * FROM `$table` WHERE id = :id");
+                $query->bindParam(":id", $id);
+                $query->execute();
+                $result = $query->fetch(PDO::FETCH_ASSOC);
 
-            return $result;
+                return $result;
+            }
+        } catch(PDOException $e) {
+            echo "Connection failed: ". $e->getMessage();
         }
+      
     }
+
+    //Haalt 1 planning edit op
+    // function getPlanning($id){
+    //     $conn = openDatabase();
+    //     $id = intval($id);
+    //     var_dump($id);
+    //     if (isset($id) && !empty($id) && is_numeric($id)) {
+    //         $query = $conn->prepare("SELECT * FROM plannings WHERE id = :id");
+    //         $query->bindParam(":id", $id);
+    //         $query->execute();
+    //         $result = $query->fetch(PDO::FETCH_ASSOC);
+
+    //         return $result;
+    //     }    
+    // }
 
     //Voegt 1 game toe aan de planning
     function addGame($data){
@@ -84,6 +104,7 @@
         $conn = openDatabase();
         $data["id"] = intval($data["id"]);
         $check = getTable("plannings", $data["id"]);
+        echo $data["id"];
 
         if(!empty($data["id"]) && isset($data["id"]) && is_numeric($data["id"]) && !empty($check) && isset($check)){
             $query = $conn->prepare("UPDATE plannings SET times=:times, duration=:duration, host=:host, players=:players  WHERE id=:id");
